@@ -1,11 +1,13 @@
 package Models;
-
+// clase de "molde" de un jugador: ficha con sus datos
 public class Jugador {
+
+    // Los datos de la fichas privados (id, nombre, posicion, numero de camisetas)
     private int id;
     private String nombre;
     private String posicion;
     private int numeroCamiseta;
-
+//constructor sin parametros
     public Jugador(String nombre, String posicion, int numeroCamiseta) {
         this.nombre = nombre;
         this.posicion = posicion;
