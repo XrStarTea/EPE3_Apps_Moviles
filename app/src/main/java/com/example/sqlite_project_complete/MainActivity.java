@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
         DatabaseHelper helper = new DatabaseHelper(this);
 
-
-        // LOGIN:Desde la Base de datos
+        // Login Desde la Base de datos
 
         btnLogin.setOnClickListener(v -> {
 
