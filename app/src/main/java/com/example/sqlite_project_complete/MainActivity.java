@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(this, Home_act.class);
                 startActivity(i);
-
-
+                finish();
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
             }

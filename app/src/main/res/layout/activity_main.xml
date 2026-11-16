@@ -5,9 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3F51B5"
+    android:background="#000D20"
     android:padding="24dp"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="231dp"
+        android:layout_height="178dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/metal" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLogin"
@@ -29,17 +39,19 @@
             android:padding="24dp">
 
             <!-- Título -->
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Iniciar Sesión"
-                android:textColor="#3F51B5"
+                android:textColor="#1734D7"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
             <!-- Campo de usuario -->
+
             <EditText
                 android:id="@+id/etUser"
                 android:layout_width="match_parent"

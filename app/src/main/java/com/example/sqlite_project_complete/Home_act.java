@@ -65,17 +65,27 @@ public class Home_act extends AppCompatActivity {
             if (nombre.isEmpty() || camisetaStr.isEmpty() || spPosicionJugador.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Completa el nombre, camiseta y selecciona una posición", Toast.LENGTH_SHORT).show();
                 return;
-            } //Error donde faltan camposs para llenar
+            } //Error donde faltan campos para llenar
 
-            int numeroCamiseta = Integer.parseInt(camisetaStr); //convierte nro de camiseta de string a entero (int)
-            Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta); // crea jugador nuevo, encapsulando los tres datos ingresados
-            long r = jugadorDAO.insertarJugador(nuevo); // inserta datos en sql, devolviendo el id de la fila insertada, o -1 si hay error
+            int numeroCamiseta;
+            try {
+                numeroCamiseta = Integer.parseInt(camisetaStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Número de camiseta inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta);
+            long r = jugadorDAO.insertarJugador(nuevo);
 
             if (r != -1) { // si jugadorDAO es distinto de -1 muestra mensaje de exito, sino, mensaje de error, limpiando los campos de textos
                 Toast.makeText(this, "Jugador añadido a la cancha", Toast.LENGTH_SHORT).show();
                 etNombreJugador.setText("");
                 spPosicionJugador.setSelection(0);
                 etNumeroCamiseta.setText("");
+                listaJugadores.clear();
+                listaJugadores.addAll(jugadorDAO.listarJugadores());
+                adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(this, "Ese número de camiseta ya existe", Toast.LENGTH_SHORT).show();
             }
@@ -100,7 +110,14 @@ public class Home_act extends AppCompatActivity {
                 return;
             }
 
-            int numeroCamiseta = Integer.parseInt(camisetaStr);
+            int numeroCamiseta;
+            try {
+                numeroCamiseta = Integer.parseInt(camisetaStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Número de camiseta inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int filas = jugadorDAO.eliminarPorCamiseta(numeroCamiseta);
 
             if (filas > 0) { // si se elimino almenos 1 registro, confirma la operacion y limpia los campos para que el jugador desaparezca inmediatamente del tvlist
