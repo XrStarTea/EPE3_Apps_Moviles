@@ -30,22 +30,22 @@ public class MainActivity extends AppCompatActivity {
 
             String user = etUser.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
-
-            SQLiteDatabase db = helper.getReadableDatabase();
-            Cursor c = db.rawQuery(
+            // obtiene texto de etUser y etPass y los convierte a string, eliminando espacios conm trim
+            SQLiteDatabase db = helper.getReadableDatabase(); // abre la base de datos en modo lectura
+            Cursor c = db.rawQuery( //ejecuta consulta, buscando registro en tabla users que coincida con usuario y contraseña ingresados
                     "SELECT id FROM users WHERE username=? AND password=?",
-                    new String[]{user, pass});
+                    new String[]{user, pass}); // evita uso de inyeccion sql y guarda el resultado en cursor
 
-            if (c.moveToFirst()) {
-                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this, Home_act.class);
+            if (c.moveToFirst()) { //intenta mover cursor al primer registro encontrado, si es true las credenciales son validas
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show(); //muestra mensaje emergente de bienvenida
+                Intent i = new Intent(this, Home_act.class); // crea una instancia nueva y abre la otra pantalla, la pantalla del crud
                 startActivity(i);
 
 
-            } else {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+            } else { // si c.moveToFirst da false, notifica que datos son incorrectos
+                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show(); //msj emergente de datos incorrectos
             }
-            c.close();
+            c.close(); // cierra cursor para liberar memoria y recursos del sql
         });
     }
 }
