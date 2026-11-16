@@ -61,8 +61,9 @@ public class Home_act extends AppCompatActivity {
             String nombre = etNombreJugador.getText().toString().trim();
             String posicion = spPosicionJugador.getSelectedItem().toString();
             String camisetaStr = etNumeroCamiseta.getText().toString().trim();
+            //agarra datos ingresaods, los convierte a string, y elimina espaciado con trim en algunos datos
 
-            if (nombre.isEmpty() || camisetaStr.isEmpty() || spPosicionJugador.getSelectedItemPosition() == 0) {
+            if (nombre.isEmpty() || camisetaStr.isEmpty() || spPosicionJugador.getSelectedItemPosition() == 0) { //si algun datos es vacio, da error
                 Toast.makeText(this, "Completa el nombre, camiseta y selecciona una posición", Toast.LENGTH_SHORT).show();
                 return;
             } //Error donde faltan campos para llenar
