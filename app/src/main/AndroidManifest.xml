@@ -22,10 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home_acct"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".Home_act"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

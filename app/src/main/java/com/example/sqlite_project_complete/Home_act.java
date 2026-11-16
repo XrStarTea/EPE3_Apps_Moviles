@@ -65,9 +65,16 @@ public class Home_act extends AppCompatActivity {
             if (nombre.isEmpty() || camisetaStr.isEmpty() || spPosicionJugador.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Completa el nombre, camiseta y selecciona una posición", Toast.LENGTH_SHORT).show();
                 return;
-            } //Error donde faltan camposs para llenar
+            } //Error donde faltan campos para llenar
 
-            int numeroCamiseta = Integer.parseInt(camisetaStr);
+            int numeroCamiseta;
+            try {
+                numeroCamiseta = Integer.parseInt(camisetaStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Número de camiseta inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta);
             long r = jugadorDAO.insertarJugador(nuevo);
 
@@ -76,6 +83,9 @@ public class Home_act extends AppCompatActivity {
                 etNombreJugador.setText("");
                 spPosicionJugador.setSelection(0);
                 etNumeroCamiseta.setText("");
+                listaJugadores.clear();
+                listaJugadores.addAll(jugadorDAO.listarJugadores());
+                adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(this, "Ese número de camiseta ya existe", Toast.LENGTH_SHORT).show();
             }
@@ -100,7 +110,14 @@ public class Home_act extends AppCompatActivity {
                 return;
             }
 
-            int numeroCamiseta = Integer.parseInt(camisetaStr);
+            int numeroCamiseta;
+            try {
+                numeroCamiseta = Integer.parseInt(camisetaStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Número de camiseta inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int filas = jugadorDAO.eliminarPorCamiseta(numeroCamiseta);
 
             if (filas > 0) {
