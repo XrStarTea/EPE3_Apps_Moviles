@@ -50,7 +50,7 @@ public class Home_act extends AppCompatActivity {
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, posiciones);
         spPosicionJugador.setAdapter(spinnerAdapter); //conectamos al menu desplegable
 
-        // Iniciamos DAO y ListView
+        // Iniciamos DAO (Data acces object) y ListView
         jugadorDAO = new JugadorDAO(this);
         listaJugadores = new ArrayList<>();
         adapter = new JugadorAdapter(this, listaJugadores);
@@ -67,11 +67,11 @@ public class Home_act extends AppCompatActivity {
                 return;
             } //Error donde faltan camposs para llenar
 
-            int numeroCamiseta = Integer.parseInt(camisetaStr);
-            Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta);
-            long r = jugadorDAO.insertarJugador(nuevo);
+            int numeroCamiseta = Integer.parseInt(camisetaStr); //convierte nro de camiseta de string a entero (int)
+            Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta); // crea jugador nuevo, encapsulando los tres datos ingresados
+            long r = jugadorDAO.insertarJugador(nuevo); // inserta datos en sql, devolviendo el id de la fila insertada, o -1 si hay error
 
-            if (r != -1) {
+            if (r != -1) { // si jugadorDAO es distinto de -1 muestra mensaje de exito, sino, mensaje de error, limpiando los campos de textos
                 Toast.makeText(this, "Jugador añadido a la cancha", Toast.LENGTH_SHORT).show();
                 etNombreJugador.setText("");
                 spPosicionJugador.setSelection(0);
@@ -83,9 +83,9 @@ public class Home_act extends AppCompatActivity {
 
         // mostramos los jugadores en el tv list
         btnShow.setOnClickListener(v -> {
-            listaJugadores.clear();
-            listaJugadores.addAll(jugadorDAO.listarJugadores());
-            adapter.notifyDataSetChanged();
+            listaJugadores.clear(); // limpia la lista, para duplicidad al presionar el boton
+            listaJugadores.addAll(jugadorDAO.listarJugadores()); // consulta los datos sql, y los carga en la lista
+            adapter.notifyDataSetChanged(); // avisa a la clase JugadorAdapter de que los datos cambiaron, para que redibuje las filas dentro de tvList
 
             if (listaJugadores.isEmpty()) {
                 Toast.makeText(this, "No hay jugadores registrados", Toast.LENGTH_SHORT).show();
@@ -103,7 +103,7 @@ public class Home_act extends AppCompatActivity {
             int numeroCamiseta = Integer.parseInt(camisetaStr);
             int filas = jugadorDAO.eliminarPorCamiseta(numeroCamiseta);
 
-            if (filas > 0) {
+            if (filas > 0) { // si se elimino almenos 1 registro, confirma la operacion y limpia los campos para que el jugador desaparezca inmediatamente del tvlist
                 Toast.makeText(this, "Jugador eliminado", Toast.LENGTH_SHORT).show();
                 etNombreJugador.setText("");
                 spPosicionJugador.setSelection(0);
@@ -123,7 +123,8 @@ public class Home_act extends AppCompatActivity {
             etNumeroCamiseta.setText(String.valueOf(seleccionado.getNumeroCamiseta()));
 
             int spinnerPos = spinnerAdapter.getPosition(seleccionado.getPosicion());
-            if (spinnerPos >= 0) {
+            //busca posicion desplegable de la posicion del jugador, si lo pilla, lo selecciona arriba
+            if (spinnerPos >= 0) { //medida de seguridad para evitar crash si por alguna razon la posicion del jugador no existe dentro de spinner
                 spPosicionJugador.setSelection(spinnerPos);
             }
         });
