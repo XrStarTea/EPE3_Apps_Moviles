@@ -68,6 +68,7 @@ public class Home_act extends AppCompatActivity {
                 return;
             } //Error donde faltan campos para llenar
 
+            //convierte texto a entero, controlando posibles errores de formato numerico
             int numeroCamiseta;
             try {
                 numeroCamiseta = Integer.parseInt(camisetaStr);
@@ -76,6 +77,7 @@ public class Home_act extends AppCompatActivity {
                 return;
             }
 
+            //crea el objeto jugador y lo inserta en el sql
             Jugador nuevo = new Jugador(nombre, posicion, numeroCamiseta);
             long r = jugadorDAO.insertarJugador(nuevo);
 
@@ -109,8 +111,9 @@ public class Home_act extends AppCompatActivity {
             if (camisetaStr.isEmpty()) {
                 Toast.makeText(this, "Escribe el N° de camiseta a eliminar", Toast.LENGTH_SHORT).show();
                 return;
-            }
+            } //esto valida que al darlee al borrar no eset vacio el campo del nro de camiseta a borrar
 
+            //valida que el ingresado sea un numero entero valido antes de consultar en sql
             int numeroCamiseta;
             try {
                 numeroCamiseta = Integer.parseInt(camisetaStr);
@@ -119,6 +122,7 @@ public class Home_act extends AppCompatActivity {
                 return;
             }
 
+            //ejectua la eliminacion en sql por numero de camiseta, y obtiene la cantidad de filas afectadaas
             int filas = jugadorDAO.eliminarPorCamiseta(numeroCamiseta);
 
             if (filas > 0) { // si se elimino almenos 1 registro, confirma la operacion y limpia los campos para que el jugador desaparezca inmediatamente del tvlist
